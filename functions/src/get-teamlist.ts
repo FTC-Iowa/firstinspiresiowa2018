@@ -25,9 +25,9 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
         const rawLeagueDoc = await dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
         console.log(leagueData.teams);
-        for(let team in leagueData.teams)
+        for(let teamIndex in leagueData.teams)
         {
-            console.log(team);
+            let team = leagueData[teamIndex];
             let rawTeamData = await dbTeams.doc(team).get();
             const teamData = rawTeamData.data();
             console.log(teamData);
