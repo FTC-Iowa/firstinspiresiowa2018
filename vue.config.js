@@ -3,6 +3,6 @@ module.exports = {
     sourceMap: true
   },
   configureWebpack: {
-    devtool: "source-map"
+    devtool: "source-map",
   }
 };
