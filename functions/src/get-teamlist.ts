@@ -28,7 +28,7 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
         for(let team in leagueData.teams)
         {
             console.log(team);
-            let teamData = dbTeams.doc(team).get();
+            let teamData = await dbTeams.doc(team).get();
             console.log(teamData);
             teamArray.push(teamData);
             console.log(teamArray);
