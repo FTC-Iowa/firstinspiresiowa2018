@@ -12,8 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // function readZipEntry(entry) {
 //   return entry.getData().toString('utf8');
 // }
-const UploadEvent = require("./upload-event");
-exports.uploadEvent = UploadEvent.uploadEvent;
+//import * as UploadEvent from './upload-event';
+const GetTeamList = require("./get-teamlist");
+//import * as ImportTeams from './import-teams'
+//export const uploadEvent = UploadEvent.uploadEvent;
+exports.teamList = GetTeamList.getTeamList;
+//export const importTeams = ImportTeams.importTeams;
 /*
 interface Score {
   auto: {
