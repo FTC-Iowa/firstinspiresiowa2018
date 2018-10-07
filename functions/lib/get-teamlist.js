@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const cors = require('cors')({ origin: true });
 //admin.initializeApp();
 const db = admin.firestore();
 //db.settings({timestampsInSnapshots: true});
@@ -24,7 +25,9 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
         }
         const rawLeagueDoc = yield dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
-        res.status(200).send(leagueData);
+        return cors(req, res, () => {
+            res.status(200).send(leagueData);
+        });
     }
     catch (err) {
         res.status(400).send("Error getting teams");
