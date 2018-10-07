@@ -27,7 +27,7 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
         console.log(leagueData.teams);
         for(let teamIndex in leagueData.teams)
         {
-            let team = leagueData[teamIndex];
+            let team = leagueData.teams[teamIndex];
             let rawTeamData = await dbTeams.doc(team).get();
             const teamData = rawTeamData.data();
             console.log(teamData);
@@ -40,7 +40,7 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
     }
     catch (err) {
         return cors(req, res, () => { 
-            res.status(400).send("Error getting teams");
+            res.status(400).send("Error getting teams: ");
         });
     }
 });

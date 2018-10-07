@@ -30,8 +30,8 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
         const rawLeagueDoc = yield dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
         console.log(leagueData.teams);
-        for (let team in leagueData.teams) {
-            console.log(team);
+        for (let teamIndex in leagueData.teams) {
+            let team = leagueData[teamIndex];
             let rawTeamData = yield dbTeams.doc(team).get();
             const teamData = rawTeamData.data();
             console.log(teamData);
