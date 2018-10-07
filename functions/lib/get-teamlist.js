@@ -32,7 +32,7 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
         console.log(leagueData.teams);
         for (let team in leagueData.teams) {
             console.log(team);
-            let teamData = dbTeams.doc(team).get();
+            let teamData = yield dbTeams.doc(team).get();
             console.log(teamData);
             teamArray.push(teamData);
             console.log(teamArray);
