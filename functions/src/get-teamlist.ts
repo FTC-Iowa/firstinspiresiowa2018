@@ -16,15 +16,19 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
         const league = req.query.league;
         if(league !== "aldren" && league !== "armstrong" && league !== "burnell" && league !== "clark" && league !== "faber" && league !== "galileo" && league !== "glenn" && league !== "hammel" && league !== "hubble" && league !== "johnson" && league !== "lovell" && league !== "porco" && league !== "roman" && league !== "rubin" && league !== "sagan" && league !== "vanallen" && league !== "vaughan" && league !== "whitson")
         {
-            res.status(400).send("League name not found in database: " + league);
+            return cors(req, res, () => { 
+                res.status(400).send("League name not found in database: " + league);
+            });
         }
         const rawLeagueDoc = await dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
-        return cors(req, res, () => {
+        return cors(req, res, () => { 
             res.status(200).send(leagueData);
         });
     }
     catch (err) {
-        res.status(400).send("Error getting teams");
+        return cors(req, res, () => { 
+            res.status(400).send("Error getting teams");
+        });
     }
 });
