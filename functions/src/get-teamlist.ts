@@ -1,6 +1,8 @@
 import * as functions from 'firebase-functions';
 import admin = require('firebase-admin');
 
+const cors = require('cors')({origin: true});
+
 //admin.initializeApp();
 const db = admin.firestore();
 //db.settings({timestampsInSnapshots: true});
@@ -18,7 +20,9 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
         }
         const rawLeagueDoc = await dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
-        res.status(200).send(leagueData);
+        return cors(req, res, () => {
+            res.status(200).send(leagueData);
+        });
     }
     catch (err) {
         res.status(400).send("Error getting teams");
