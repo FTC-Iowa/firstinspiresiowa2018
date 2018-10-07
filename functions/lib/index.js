@@ -13,7 +13,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //   return entry.getData().toString('utf8');
 // }
 const UploadEvent = require("./upload-event");
+const GetTeamList = require("./get-teamlist");
+//import * as ImportTeams from './import-teams'
 exports.uploadEvent = UploadEvent.uploadEvent;
+exports.teamList = GetTeamList.getTeamList;
+//export const importTeams = ImportTeams.importTeams;
 /*
 interface Score {
   auto: {
