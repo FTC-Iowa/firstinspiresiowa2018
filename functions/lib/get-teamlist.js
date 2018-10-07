@@ -15,11 +15,13 @@ const cors = require('cors')({ origin: true });
 const db = admin.firestore();
 //db.settings({timestampsInSnapshots: true});
 const dbLeagues = db.collection('leagues');
+const dbTeams = db.collection('teams');
 exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         //NOTE: Expects baseUrl?league=aldren or similar
         //Example: http://localhost:5000/firstinspiresiowa2018/us-central1/teamList?league=aldren
         const league = req.query.league;
+        let teamArray = [];
         if (league !== "aldren" && league !== "armstrong" && league !== "burnell" && league !== "clark" && league !== "faber" && league !== "galileo" && league !== "glenn" && league !== "hammel" && league !== "hubble" && league !== "johnson" && league !== "lovell" && league !== "porco" && league !== "roman" && league !== "rubin" && league !== "sagan" && league !== "vanallen" && league !== "vaughan" && league !== "whitson") {
             return cors(req, res, () => {
                 res.status(400).send("League name not found in database: " + league);
@@ -27,8 +29,12 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
         }
         const rawLeagueDoc = yield dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
+        for (let team in leagueData.teams) {
+            let teamData = dbTeams.doc(team).get();
+            teamArray.push(teamData);
+        }
         return cors(req, res, () => {
-            res.status(200).send(leagueData);
+            res.status(200).send(teamArray);
         });
     }
     catch (err) {

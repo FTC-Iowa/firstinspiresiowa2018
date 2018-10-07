@@ -24,10 +24,14 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
         }
         const rawLeagueDoc = await dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
+        console.log(leagueData.teams);
         for(let team in leagueData.teams)
         {
+            console.log(team);
             let teamData = dbTeams.doc(team).get();
+            console.log(teamData);
             teamArray.push(teamData);
+            console.log(teamArray);
         }
         return cors(req, res, () => { 
             res.status(200).send(teamArray);
