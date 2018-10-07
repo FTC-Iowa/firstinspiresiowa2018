@@ -21,7 +21,9 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
         //Example: http://localhost:5000/firstinspiresiowa2018/us-central1/teamList?league=aldren
         const league = req.query.league;
         if (league !== "aldren" && league !== "armstrong" && league !== "burnell" && league !== "clark" && league !== "faber" && league !== "galileo" && league !== "glenn" && league !== "hammel" && league !== "hubble" && league !== "johnson" && league !== "lovell" && league !== "porco" && league !== "roman" && league !== "rubin" && league !== "sagan" && league !== "vanallen" && league !== "vaughan" && league !== "whitson") {
-            res.status(400).send("League name not found in database: " + league);
+            return cors(req, res, () => {
+                res.status(400).send("League name not found in database: " + league);
+            });
         }
         const rawLeagueDoc = yield dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
@@ -30,7 +32,9 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
         });
     }
     catch (err) {
-        res.status(400).send("Error getting teams");
+        return cors(req, res, () => {
+            res.status(400).send("Error getting teams");
+        });
     }
 }));
 //# sourceMappingURL=get-teamlist.js.map
