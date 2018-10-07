@@ -12,7 +12,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 //admin.initializeApp();
 const db = admin.firestore();
-db.settings({ timestampsInSnapshots: true });
+//db.settings({timestampsInSnapshots: true});
 const dbLeagues = db.collection('leagues');
 exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, void 0, void 0, function* () {
     try {

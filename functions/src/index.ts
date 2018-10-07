@@ -13,12 +13,12 @@
 //   return entry.getData().toString('utf8');
 // }
 
-//import * as UploadEvent from './upload-event';
+import * as UploadEvent from './upload-event';
 import * as GetTeamList from './get-teamlist';
 //import * as ImportTeams from './import-teams'
 
 
-//export const uploadEvent = UploadEvent.uploadEvent;
+export const uploadEvent = UploadEvent.uploadEvent;
 export const teamList = GetTeamList.getTeamList;
 //export const importTeams = ImportTeams.importTeams;
 
