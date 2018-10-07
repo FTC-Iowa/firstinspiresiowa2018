@@ -24,15 +24,12 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
         }
         const rawLeagueDoc = await dbLeagues.doc(league).get();
         const leagueData = rawLeagueDoc.data();
-        console.log(leagueData.teams);
         for(let teamIndex in leagueData.teams)
         {
             let team = leagueData.teams[teamIndex];
-            let rawTeamData = await dbTeams.doc(team).get();
+            let rawTeamData = await dbTeams.doc("" + team).get();
             const teamData = rawTeamData.data();
-            console.log(teamData);
             teamArray.push(teamData);
-            console.log(teamArray);
         }
         return cors(req, res, () => { 
             res.status(200).send(teamArray);
@@ -40,7 +37,7 @@ export const getTeamList = functions.https.onRequest(async(req, res) => {
     }
     catch (err) {
         return cors(req, res, () => { 
-            res.status(400).send("Error getting teams: ");
+            res.status(400).send("Error getting teams: " + res.statusMessage);
         });
     }
 });

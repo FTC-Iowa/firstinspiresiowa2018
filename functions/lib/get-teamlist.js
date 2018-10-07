@@ -28,15 +28,17 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
             });
         }
         const rawLeagueDoc = yield dbLeagues.doc(league).get();
+        console.log(rawLeagueDoc);
         const leagueData = rawLeagueDoc.data();
         console.log(leagueData.teams);
         for (let teamIndex in leagueData.teams) {
-            let team = leagueData[teamIndex];
-            let rawTeamData = yield dbTeams.doc(team).get();
+            let team = leagueData.teams[teamIndex];
+            console.log(team);
+            let rawTeamData = yield dbTeams.doc("" + team).get();
+            console.log(rawTeamData);
             const teamData = rawTeamData.data();
             console.log(teamData);
             teamArray.push(teamData);
-            console.log(teamArray);
         }
         return cors(req, res, () => {
             res.status(200).send(teamArray);
@@ -44,7 +46,7 @@ exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, vo
     }
     catch (err) {
         return cors(req, res, () => {
-            res.status(400).send("Error getting teams");
+            res.status(400).send("Error getting teams: " + res.statusMessage);
         });
     }
 }));
