@@ -18,8 +18,8 @@ const dbTeams = db.collection('teams');
 const dbLeagues = db.collection('leagues');
 exports.getTeamList = functions.https.onRequest((req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        var fuckThisShit = req;
-        console.log(fuckThisShit);
+        //NOTE: Expects baseUrl?league=aldren or similar
+        //Example: http://localhost:5000/firstinspiresiowa2018/us-central1/teamList?league=aldren
         var league = req.query.league;
         console.log(league);
         if (league != "aldren" && league != "armstrong" && league != "burnell" && league != "clark" && league != "faber" && league != "galileo" && league != "glenn" && league != "hammel" && league != "hubble" && league != "johnson" && league != "lovell" && league != "porco" && league != "roman" && league != "rubin" && league != "sagan" && league != "vanallen" && league != "vaughan" && league != "whitson") {
