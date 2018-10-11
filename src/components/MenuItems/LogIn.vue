@@ -30,10 +30,10 @@
 
 <script>
 // import firebase from 'firebase'
-import firebaseui from "firebaseui";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebaseui/dist/firebaseui.css";
+// import firebaseui from "firebaseui";
+// import firebase from "firebase/app";
+// import "firebase/auth";
+// import "firebaseui/dist/firebaseui.css";
 
 export default {
   name: "LoginMenu",
@@ -50,28 +50,24 @@ export default {
       this.$auth.signOut();
     },
     init() {
-      if (this.ui) delete this.ui;
-      var uiConfig = {
-        signInSuccessUrl: "/success",
-        signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID
-        ],
-        signInFlow: "popup",
-        callbacks: {
-          signInSuccessWithAuthResult: authResult => {
-            console.log("Sign In Success: ", authResult);
-            this.visible = false;
-            return false; // don't redirect
-          },
-          signInFailure: error => {
-            console.error("Sign In Error: ", error);
-            return false;
-          }
-        }
-      };
-      this.ui = new firebaseui.auth.AuthUI(this.$auth);
-      this.ui.start("#firebaseui-auth-container", uiConfig);
+      // if (this.ui) delete this.ui;
+      // var uiConfig = {
+      //   signInOptions: this.$auth.signInOptions,
+      //   signInFlow: "popup",
+      //   callbacks: {
+      //     signInSuccessWithAuthResult: authResult => {
+      //       console.log("Sign In Success: ", authResult);
+      //       this.visible = false;
+      //       return false; // don't redirect
+      //     },
+      //     signInFailure: error => {
+      //       console.error("Sign In Error: ", error);
+      //       return false;
+      //     }
+      //   }
+      // };
+      // this.ui = new firebaseui.auth.AuthUI(this.$auth);
+      // this.ui.start("#firebaseui-auth-container", uiConfig);
     }
   },
   watch: {
@@ -87,7 +83,7 @@ export default {
     this.init();
   },
   beforeDestroy() {
-    delete this.ui;
+    // delete this.ui;
   }
 };
 </script>

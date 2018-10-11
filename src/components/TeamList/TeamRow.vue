@@ -3,7 +3,7 @@
     <td>{{ team ? team.number : "" }}</td>
     <td>{{ team ? team.name : "" }}</td>
     <td>{{ team ? team.league : "" }}</td>
-    <td>{{ team ? team.organization : "" }}</td>
+    <!-- <td>{{ team ? team.organization : "" }}</td> -->
   </router-link>
 </template>
 

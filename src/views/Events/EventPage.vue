@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tabs-items :value="value" v-if="event">
+    <!-- <v-tabs-items :value="value" v-if="event">
       <v-tab-item
         v-for="tab in event.tabs"
         :key="tab"
@@ -8,7 +8,11 @@
       >
         <component :is="tabMap[tab]" :key="tab" :event="event"/>
       </v-tab-item>
-    </v-tabs-items>
+    </v-tabs-items> -->
+    <v-card v-if="event">
+      <router-view :event="event" />
+      <fab-menu v-if="event && event.tabs" :items="event.tabs" />
+    </v-card>
     <div v-else class="text-xs-center">
       <v-progress-circular
         :size="200"
@@ -19,30 +23,38 @@
       />
       <h2>Loading</h2>
     </div>
+
+    <!-- {{event}} -->
+
   </div>
 </template>
 
 <script>
-import HomeTab from "./HomeTab";
-import AwardsTab from "./AwardsTab";
-import MatchesTab from "./MatchesTab";
-import TeamsTab from "./TeamsTab";
-import RankingsTab from "./RankingsTab";
+// import HomeTab from "./HomeTab";
+// import AwardsTab from "./AwardsTab";
+// import MatchesTab from "./MatchesTab";
+// import TeamsTab from "./TeamsTab";
+// import RankingsTab from "./RankingsTab";
+import FabMenu from "@/components/FabMenu";
 
 export default {
   name: "EventPage",
   props: ["value"],
+  components: {
+    FabMenu
+  },
   data: () => ({
-    tabMap: {
-      home: HomeTab,
-      schedule: null,
-      teams: TeamsTab,
-      matches: MatchesTab,
-      rankings: RankingsTab,
-      inspections: null,
-      awards: AwardsTab,
-      twitter: null
-    },
+    // fab: false,
+    // tabMap: {
+    //   home: HomeTab,
+    //   schedule: null,
+    //   teams: TeamsTab,
+    //   matches: MatchesTab,
+    //   rankings: RankingsTab,
+    //   inspections: null,
+    //   awards: AwardsTab,
+    //   twitter: null
+    // },
     dbRefs: ["dbRef"]
   }),
   firestore() {},
@@ -78,6 +90,3 @@ export default {
   methods: {}
 };
 </script>
-
-<style>
-</style>

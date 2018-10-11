@@ -15,6 +15,7 @@
         <span class="headline">Upload New Event: {{eventName}}</span>
       </v-card-title>
       <v-card-text>
+        <v-btn color="success" @click.native="parseEvent">text</v-btn>
         <v-stepper v-model="step" vertical>
           <v-stepper-step step="1" :complete="step > 1">
             Add Event Information
@@ -30,13 +31,13 @@
                         <v-select
                           :items="eventTypes"
                           :rules="rules.nonEmpty"
-                          v-model="form.eventType"
+                          v-model="form.type"
                           label="Event Type"
                         />
                       </v-flex>
 
                       <!-- League -->
-                      <v-flex xs8 v-if="form.eventType === 'League Meet'">
+                      <v-flex xs8 v-if="form.type === 'LeagueMeet'">
                         <v-select
                           :items="leagueList"
                           :rules="rules.nonEmpty"
@@ -46,13 +47,13 @@
                       </v-flex>
 
                       <!-- Meet Number -->
-                      <v-flex xs4 v-if="form.eventType === 'League Meet'">
+                      <v-flex xs4 v-if="form.type === 'LeagueMeet'">
                         <v-text-field
                           type="number"
                           label="Meet Number"
                           :rules="rules.nonEmpty"
                           v-model="form.number"
-                          v-if="form.eventType === 'League Meet'"
+                          v-if="form.type === 'LeagueMeet'"
                           min=0
                           max=10
                           step=1
@@ -91,7 +92,7 @@
                           label="Event Name"
                           :rules="rules.nonEmpty"
                           v-model="form.name"
-                          :disabled="form.eventType === 'League Meet'"
+                          :disabled="form.type === 'LeagueMeet'"
                         />
                       </v-flex>
 
@@ -181,12 +182,12 @@
           <v-stepper-content step="4">
             <v-card color="grey lighten-1" class="mb-5">
               <v-card-text>
-                
+                Result: {{serverResult}}
               </v-card-text>
               
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="secondary" flat @click.native="cancel">Cancel</v-btn>
+                <!-- <v-btn color="secondary" flat @click.native="cancel">Cancel</v-btn> -->
                 <v-btn color="secondary" @click.native="finished">Finished</v-btn>
               </v-card-actions>
             </v-card>
@@ -205,16 +206,16 @@ export default {
   data: () => ({
     visible: false,
     step: 1,
-    id: null,
+    id: "XaqzYvsBY", //null,
     eventName: "",
-    eventTypes: ["League Meet"],
+    eventTypes: ["LeagueMeet"],
     leagueList: [],
     leagueListDocs: [],
     form: {
-      eventType: null,
-      league: null,
-      date: null,
-      number: null,
+      type: "LeagueMeet", //null,
+      league: "CUEaRLKMmKYQf2zf3HqF", //null,
+      date: 0, //null,
+      number: 1, //null,
       name: null,
       location: null
     },
@@ -232,7 +233,8 @@ export default {
     uploadProgress: 0,
     fileName: null,
     uploadTask: null,
-    file: null
+    file: null,
+    serverResult: "data"
   }),
   watch: {
     "form.league": {
@@ -289,7 +291,7 @@ export default {
 
     updateName() {
       if (
-        this.form.eventType === "League Meet" &&
+        this.form.type === "LeagueMeet" &&
         this.form.league &&
         this.form.number
       ) {
@@ -341,14 +343,14 @@ export default {
           return element.name === eventData.league;
         });
         console.log("league:", eventData.league);
-        eventData.league = eventData.league.id;
+        eventData.league = "CUEaRLKMmKYQf2zf3HqF"; //eventData.league.id;
         console.log("league:", eventData.league);
       }
       eventData.id = this.id;
 
       parseEvent(eventData).then(result => {
         console.log("result: ", result);
-
+        this.serverResult = result.message;
         this.step = 4;
       });
     },

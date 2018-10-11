@@ -10,6 +10,7 @@
   "dependencies": {
     "dateformat": "^3.0.3",
     "firebase": "^5.4.2",
+    "firebase-admin": "^6.0.0",
     "firebaseui": "^3.4.1",
     "register-service-worker": "^1.0.0",
     "shortid": "^2.2.13",
@@ -33,6 +34,7 @@
     "lint-staged": "^7.2.2",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
+    "typescript": "^3.1.1",
     "vue-cli-plugin-vuetify": "^0.1.6",
     "vue-template-compiler": "^2.5.17"
   },

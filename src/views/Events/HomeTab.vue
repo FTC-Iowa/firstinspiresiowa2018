@@ -1,7 +1,8 @@
 <template>
   <v-card>
     <v-card-text>
-      {{JSON.stringify(event)}}
+      <!-- {{JSON.stringify(event)}} -->
+      Event {{event.name}}
     </v-card-text>
   </v-card>
 </template>

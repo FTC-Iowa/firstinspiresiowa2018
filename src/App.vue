@@ -35,7 +35,7 @@
       >
         <color-bars />
         <v-tabs
-          v-if="tabs.length > 0"
+          v-if="tabs.length > 0 && !$vuetify.breakpoint.mdAndDown"
           slot="extension"
           v-model="value"
           color="primary"
@@ -75,7 +75,6 @@
         />
         <v-spacer />
         <v-btn 
-          color="secondary"
           flat 
           icon
           small
@@ -84,7 +83,6 @@
           <v-icon>invert_colors</v-icon>
         </v-btn>
         <v-btn 
-          color="secondary"
           flat 
           icon
           small
@@ -100,7 +98,6 @@
         >
           <v-btn
             slot="activator"
-            color="secondary"
             flat 
             icon
             small

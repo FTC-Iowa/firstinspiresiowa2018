@@ -2,6 +2,9 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 
+import Team from "./views/Teams/router";
+import Event from "./views/Events/router";
+
 Vue.use(Router);
 
 export default new Router({
@@ -22,33 +25,24 @@ export default new Router({
       name: "teams",
       component: () => import("./views/Teams")
     },
-    {
-      path: "/team/:id",
-      redirect: () => {
-        return "/team/:id/home";
-      }
-    },
-    {
-      path: "/team/:id/:tab",
-      name: "team",
-      component: () => import("./views/Teams/TeamPage")
-    },
+    Team,
     {
       path: "/event",
       name: "events",
       component: () => import("./views/Events")
     },
-    {
-      path: "/event/:id",
-      redirect: () => {
-        return "/event/:id/home";
-      }
-    },
-    {
-      path: "/event/:id/:tab",
-      name: "event",
-      component: () => import("./views/Events/EventPage")
-    },
+    Event,
+    // {
+    //   path: "/event/:id",
+    //   redirect: () => {
+    //     return "/event/:id/home";
+    //   }
+    // },
+    // {
+    //   path: "/event/:id/:tab",
+    //   name: "event",
+    //   component: () => import("./views/Events/EventPage")
+    // },
     {
       path: "/league",
       name: "leagues",

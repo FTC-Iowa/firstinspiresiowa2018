@@ -69,11 +69,11 @@ export default {
       {
         text: "League",
         value: "league"
-      },
-      {
-        text: "Organization",
-        value: "organization"
       }
+      // {
+      //   text: "Organization",
+      //   value: "organization"
+      // }
     ]
   })
 };

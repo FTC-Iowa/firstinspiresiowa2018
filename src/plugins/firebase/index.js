@@ -10,6 +10,12 @@ export default {
     Vue.prototype.$functions = Firebase.firefunctions;
     Vue.prototype.$auth = Firebase.fireauth;
 
+    const signInOptions = [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID
+    ];
+    Vue.prototype.$auth.signInOptions = signInOptions;
+
     Vue.use(VueFire);
 
     Vue.mixin({
