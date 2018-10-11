@@ -12,7 +12,7 @@
 
     <v-card v-if="team">
       <router-view :team="team" />
-      <fab-menu :items="tabs" />
+      <fab-menu :items="tabs" v-if="$vuetify.breakpoint.mdAndDown"/>
     </v-card>
     <div v-else class="text-xs-center">
       
@@ -30,10 +30,6 @@
 </template>
 
 <script>
-import HomeTab from "./HomeTab";
-import EventTab from "./EventTab";
-import MatchesTab from "./MatchesTab";
-import AwardsTab from "./AwardsTab";
 import FabMenu from "@/components/FabMenu";
 
 export default {
@@ -43,12 +39,6 @@ export default {
     FabMenu
   },
   data: () => ({
-    tabMap: {
-      home: HomeTab,
-      events: EventTab,
-      matches: MatchesTab,
-      awards: AwardsTab
-    },
     tabs: [
       {
         name: "home",

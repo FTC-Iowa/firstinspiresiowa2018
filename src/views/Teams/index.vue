@@ -15,12 +15,13 @@ export default {
     TeamList
   },
   data: () => ({
-    teamsList: []
+    dbRefs: ["ref"],
+    ref: "admin/teams"
   }),
-  firestore() {
-    return {
-      teamsList: this.$db.collection("teams")
-    };
+  computed: {
+    teamsList() {
+      return this.db[this.ref] ? this.db[this.ref].teams : [];
+    }
   }
 };
 </script>

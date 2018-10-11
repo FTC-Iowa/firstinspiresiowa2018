@@ -1,6 +1,6 @@
 <template>
   <div>
-    <team-list :teams="league.teams" />
+    <team-list :teams="teams" />
   </div>
 </template>
 
@@ -15,7 +15,16 @@ export default {
   },
   data: () => ({
     //teams: []
-  })
+  }),
+  computed: {
+    teams() {
+      if (this.league && this.league.teams) {
+        return this.league.teams;
+      } else {
+        return [];
+      }
+    }
+  }
 };
 </script>
 

@@ -424,53 +424,57 @@ class Event {
 
 
 export const uploadEvent = functions.https.onCall(async (request: Request, context): Promise<Response> => {
-  // create event object
-  const event = new Event(request);
+  // // create event object
+  // const event = new Event(request);
 
-  // build file paths
-  const remoteFilePath = "event-data/" + request.id + ".zip";
-  const localFilePath = path.join(os.tmpdir(), request.id + ".zip");
+  // // build file paths
+  // const remoteFilePath = "event-data/" + request.id + ".zip";
+  // const localFilePath = path.join(os.tmpdir(), request.id + ".zip");
 
-  /// download the zip folder
-  try {
-    await bucket.file(remoteFilePath).download({
-      destination: localFilePath
-    });
-  } catch (err) {
-    console.log('error downloading event file:', err);
-    return {
-      status: "error",
-      message: "Downloading zip folder",
-      id: request.id,
-      error: err
-    };
+  // /// download the zip folder
+  // try {
+  //   await bucket.file(remoteFilePath).download({
+  //     destination: localFilePath
+  //   });
+  // } catch (err) {
+  //   console.log('error downloading event file:', err);
+  //   return {
+  //     status: "error",
+  //     message: "Downloading zip folder",
+  //     id: request.id,
+  //     error: err
+  //   };
+  // }
+
+  // /// open zip folder
+  // const zip = new AdmZip(localFilePath);
+  // const zipEntries = zip.getEntries();
+
+  // zipEntries.forEach(file => {
+  //   if (file.isDirectory === false) event.parseFile(file)
+  // });
+
+  // try {
+  //   const rv = await event.commitToDb();
+  //   console.log('rv: ', rv);
+  //   return {
+  //     status: "success",
+  //     message: "Event created: " + JSON.stringify(event.data),
+  //     // rv: rv,
+  //     id: request.id
+  //   };
+  // } catch (err) {
+  //   console.error("error:", err)
+  //   return {
+  //     status: "error",
+  //     message: "Commiting event to DB",
+  //     id: request.id,
+  //     error: err
+  //   };
+  // }
+  return {
+    status: "success",
+    message: "Event uploaded.  Parsing not yet supported",
+    id: request.id,
   }
-
-  /// open zip folder
-  const zip = new AdmZip(localFilePath);
-  const zipEntries = zip.getEntries();
-
-  zipEntries.forEach(file => {
-    if (file.isDirectory === false) event.parseFile(file)
-  });
-
-  try {
-    const rv = await event.commitToDb();
-    console.log('rv: ', rv);
-    return {
-      status: "success",
-      message: "Event created: " + JSON.stringify(event.data),
-      // rv: rv,
-      id: request.id
-    };
-  } catch (err) {
-    console.error("error:", err)
-    return {
-      status: "error",
-      message: "Commiting event to DB",
-      id: request.id,
-      error: err
-    };
-  }
-
 });

@@ -46,11 +46,12 @@
             <!-- :href="'#' + tab" -->
           <v-tab 
             v-for="tab in tabs" 
-            :key="tab"
+            :key="tab.name"
             fixed
-            :to="tab" 
+            :to="{name: tab.route}" 
           >
-            {{ tab }}
+            <!-- <v-icon>{{tab.icon}}</v-icon> -->
+            {{ tab.name }}
           </v-tab>
         </v-tabs>
 
@@ -172,16 +173,16 @@ import Vue from "vue";
 Vue.use(fullscreen);
 
 import ColorBars from "@/components/ColorBars";
-import LogIn from "@/components/MenuItems/LogIn";
+// import LogIn from "@/components/MenuItems/LogIn";
 import UploadEvent from "@/components/MenuItems/UploadEvent";
-import ImportTeams from "@/components/MenuItems/ImportTeams";
+// import ImportTeams from "@/components/MenuItems/ImportTeams";
 
 export default {
   name: "App",
   components: {
     ColorBars,
-    UploadEvent,
-    ImportTeams
+    UploadEvent
+    // ImportTeams
   },
   data() {
     return {
@@ -219,7 +220,11 @@ export default {
       right: true,
       rightDrawer: false,
       title: "FIRST Inspires Iowa",
-      menuItems: [LogIn, ImportTeams, UploadEvent]
+      menuItems: [
+        // LogIn,
+        // ImportTeams,
+        UploadEvent
+      ]
     };
   },
   methods: {

@@ -11,7 +11,8 @@
     </v-tabs-items> -->
     <v-card v-if="event">
       <router-view :event="event" />
-      <fab-menu v-if="event && event.tabs" :items="event.tabs" />
+
+      <fab-menu v-if="event && event.tabs && $vuetify.breakpoint.mdAndDown" :items="event.tabs" />
     </v-card>
     <div v-else class="text-xs-center">
       <v-progress-circular
@@ -57,7 +58,6 @@ export default {
     // },
     dbRefs: ["dbRef"]
   }),
-  firestore() {},
   computed: {
     dbRef() {
       if (this.$route.params.id) {

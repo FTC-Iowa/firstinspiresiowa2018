@@ -26,7 +26,8 @@
         :rows-per-page-items="[30, 60, {text: 'All', value: -1}]"
       >
         <template slot="items" slot-scope="props">
-          <team-row :id="props.item.number ? props.item.number : props.item" />
+          <team-row :team="props.item" v-if="props.item.number"/>
+          <team-row :id="props.item" v-else />
           <!-- <router-link :to="{name: 'team', params: {id: props.item.id, tab: 'home' }}" tag="tr">
             <td>{{ props.item.number }}</td>
             <td>{{ props.item.name }}</td>
@@ -67,13 +68,13 @@ export default {
         value: "name"
       },
       {
+        text: "Organization",
+        value: "organization"
+      },
+      {
         text: "League",
         value: "league"
       }
-      // {
-      //   text: "Organization",
-      //   value: "organization"
-      // }
     ]
   })
 };

@@ -15,7 +15,7 @@
         <span class="headline">Upload New Event: {{eventName}}</span>
       </v-card-title>
       <v-card-text>
-        <v-btn color="success" @click.native="parseEvent">text</v-btn>
+        <!-- <v-btn color="success" @click.native="parseEvent">text</v-btn> -->
         <v-stepper v-model="step" vertical>
           <v-stepper-step step="1" :complete="step > 1">
             Add Event Information
@@ -39,10 +39,12 @@
                       <!-- League -->
                       <v-flex xs8 v-if="form.type === 'LeagueMeet'">
                         <v-select
-                          :items="leagueList"
+                          :items="leagues"
                           :rules="rules.nonEmpty"
                           v-model="form.league"
                           label="League"
+                          item-value="id"
+                          item-text="name"
                         />
                       </v-flex>
 
@@ -140,7 +142,7 @@
 
                 <input
                   type="file"
-                  accept=".zip"
+                  accept=".db"
                   :multiple="false"
                   ref="uploader"
                   @change="detectFiles($event)"
@@ -180,9 +182,9 @@
             Finished
           </v-stepper-step>
           <v-stepper-content step="4">
-            <v-card color="grey lighten-1" class="mb-5">
+            <v-card>
               <v-card-text>
-                Result: {{serverResult}}
+                Event successfully uploaded.  Parsing not yet supported.
               </v-card-text>
               
               <v-card-actions>
@@ -209,12 +211,10 @@ export default {
     id: "XaqzYvsBY", //null,
     eventName: "",
     eventTypes: ["LeagueMeet"],
-    leagueList: [],
-    leagueListDocs: [],
     form: {
       type: "LeagueMeet", //null,
-      league: "CUEaRLKMmKYQf2zf3HqF", //null,
-      date: 0, //null,
+      league: null,
+      date: null, //null,
       number: 1, //null,
       name: null,
       location: null
@@ -223,7 +223,6 @@ export default {
     rules: {
       nonEmpty: [v => !!v || "Field is required"]
     },
-    firestoreWatchers: [],
     dateMenu: false,
     date: null,
     dateFormated: null,
@@ -234,8 +233,17 @@ export default {
     fileName: null,
     uploadTask: null,
     file: null,
-    serverResult: "data"
+    serverResult: "",
+
+    dbRefs: ["leaguesRef"],
+    leaguesRef: "admin/leagues"
   }),
+  computed: {
+    leagues() {
+      var doc = this.db[this.leaguesRef];
+      return doc ? doc.leagues : [];
+    }
+  },
   watch: {
     "form.league": {
       handler() {
@@ -275,18 +283,18 @@ export default {
   },
   methods: {
     show() {
-      this.firestoreGetCollection("leagues");
+      // this.firestoreGetCollection("leagues");
       this.visible = true;
     },
     cancel() {
       this.visible = false;
       this.step = 1;
-      this.firestoreStopAllWatcers();
+      // this.firestoreStopAllWatcers();
     },
     finished() {
       this.visible = false;
       this.step = 1;
-      this.firestoreStopAllWatcers();
+      // this.firestoreStopAllWatcers();
     },
 
     updateName() {
@@ -295,7 +303,8 @@ export default {
         this.form.league &&
         this.form.number
       ) {
-        this.form.name = this.form.league + " Meet " + this.form.number;
+        var name = this.leagues.filter(l => l.id == this.form.league)[0].name;
+        this.form.name = name + " Meet " + this.form.number;
       }
     },
 
@@ -338,14 +347,6 @@ export default {
 
       var eventData = this.form;
       console.log("league:", eventData.league);
-      if (eventData.league) {
-        eventData.league = this.leagueListDocs.find(element => {
-          return element.name === eventData.league;
-        });
-        console.log("league:", eventData.league);
-        eventData.league = "CUEaRLKMmKYQf2zf3HqF"; //eventData.league.id;
-        console.log("league:", eventData.league);
-      }
       eventData.id = this.id;
 
       parseEvent(eventData).then(result => {
@@ -353,38 +354,35 @@ export default {
         this.serverResult = result.message;
         this.step = 4;
       });
-    },
-
-    firestoreStopWatch(watcher) {
-      if (watcher) {
-        watcher();
-      }
-    },
-
-    firestoreStopAllWatcers() {
-      this.firestoreWatchers.forEach(observer => {
-        this.firestoreStopWatch(observer);
-      });
-    },
-
-    firestoreGetCollection(collection) {
-      var ref = this.$db.collection(collection);
-      var observer = ref.onSnapshot(snapshot => {
-        this.leagueListDocs = [];
-        var leagueListTmp = [];
-        snapshot.forEach(doc => {
-          var data = doc.data();
-          data.id = doc.id;
-          this.leagueListDocs.push(data);
-          leagueListTmp.push(data.name);
-        });
-        this.leagueList = leagueListTmp.sort();
-      });
-      this.firestoreWatchers.push(observer);
     }
-  },
-  beforeDestroy() {
-    this.firestoreStopAllWatcers();
+
+    // firestoreStopWatch(watcher) {
+    //   if (watcher) {
+    //     watcher();
+    //   }
+    // },
+
+    // firestoreStopAllWatcers() {
+    //   this.firestoreWatchers.forEach(observer => {
+    //     this.firestoreStopWatch(observer);
+    //   });
+    // },
+
+    // firestoreGetCollection(collection) {
+    //   var ref = this.$db.collection(collection);
+    //   var observer = ref.onSnapshot(snapshot => {
+    //     this.leagueListDocs = [];
+    //     var leagueListTmp = [];
+    //     snapshot.forEach(doc => {
+    //       var data = doc.data();
+    //       data.id = doc.id;
+    //       this.leagueListDocs.push(data);
+    //       leagueListTmp.push(data.name);
+    //     });
+    //     this.leagueList = leagueListTmp.sort();
+    //   });
+    //   this.firestoreWatchers.push(observer);
+    // }
   }
 };
 </script>
